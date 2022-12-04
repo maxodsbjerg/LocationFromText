@@ -1,0 +1,59 @@
+---
+title: "Dacy"
+author: "Max Odsbjerg Pedersen"
+date: "2022-11-30"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+
+```{r}
+city_council_spacy <- read_csv("aarhus_city_council_40_45_spacy.csv")
+```
+
+```{r}
+city_council %>% 
+  mutate(doc_id = row_number()) %>% 
+  select(doc_id, everything())
+```
+
+
+
+
+
+```{r}
+city_council_spacy %>% 
+  filter(is_stop == FALSE) %>% 
+  filter(is_punct == FALSE) %>% 
+  drop_na(ent_type) %>% 
+  filter(ent_type == "LOC") %>% 
+  count(ent_type, token, sort = TRUE)
+```
+
+
+
+```{r}
+city_council_spacy %>% 
+  filter(pos == "") %>% 
+  count(token, sort = TRUE)
+```
+
+
+```{r}
+city_council_places <- read_csv("CitycouncilPlaces.csv")
+```
+
+```{r}
+city_council_places %>% 
+  count(places, sort = TRUE) %>% 
+  slice_max(n, n = 200)
+```
+
+```{r}
+stopsteder <- tibble(steder = c("Statslaan", "Byen", "Grunden", "Vilkaar", "Byens", "Gaden", "Haven", "Bero", "Pladsen", ".", "Danmark", "Fjor", "Skoven", "Aarhus By", "Aarhus Borgerskoler", "Aarhus Købstad", "Broen", "Jorden", "Stien", "Kirkegaardene", "Kommunens", "Aarhus Købstadkommune", "Sporvejene", "Havnens", "Københavns Kommune", "Svømmehallen", "Jord", "Statsbanerne", "Banen", "Aarhus Amt", "Laan", "Aarhus Købstads", "Bygningen", "Hallen", "Hjørnet", "Parken", "Kirkegaarden"))
+```
+
